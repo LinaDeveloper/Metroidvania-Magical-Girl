@@ -11,16 +11,36 @@ config_version=5
 [application]
 
 config/name="Metroidvania Magical Girl"
+run/main_scene="res://menu/scenes/opening/opening.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[audio]
+
+buses/default_bus_layout="uid://dgryumpknooy6"
 
 [autoload]
 
 TransitionScreen="*uid://cedk4ywssqpv8"
+AppConfig="*uid://cjke6crjg14a0"
+SceneLoader="*uid://cbwmrnp0af35y"
+ProjectMusicController="*uid://r5t485lr3p7t"
+ProjectUISoundController="*uid://cc37235kj4384"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/hyper-godot-commons/plugin.cfg")
+enabled=PackedStringArray("res://addons/hyper-godot-commons/plugin.cfg", "res://addons/maaacks_menus_template/plugin.cfg")
+
+[internationalization]
+
+locale/translations=PackedStringArray("res://addons/maaacks_menus_template/base/translations/menus_translations.en.translation", "res://addons/maaacks_menus_template/base/translations/menus_translations.fr.translation")
+
+[maaacks_menus_template]
+
+disable_install_audio_busses=true
+disable_update_check=false
+disable_install_wizard=true
+copy_path="res://menu/"
 
 [physics]
 
