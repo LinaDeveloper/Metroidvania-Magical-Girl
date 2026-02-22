@@ -27,6 +27,11 @@ SceneLoader="*uid://cbwmrnp0af35y"
 ProjectMusicController="*uid://r5t485lr3p7t"
 ProjectUISoundController="*uid://cc37235kj4384"
 
+[editor]
+
+movie_writer/video_quality=0.9
+movie_writer/movie_file="movie_captures/metroidvania_magical_girl.ogv"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/hyper-godot-commons/plugin.cfg", "res://addons/maaacks_menus_template/plugin.cfg")
