@@ -17,12 +17,12 @@ tile_map_data = PackedByteArray("AAD2/wAABAAKAAAAAAD3/wAABAAKAAAAAAD4/wAABAAKAAA
 tile_set = ExtResource("2_vondf")
 
 [node name="PlayerCharacter" parent="." unique_id=987239512 instance=ExtResource("2_y71l2")]
-position = Vector2(-23, -65)
+position = Vector2(16, -16)
 
 [node name="LevelBounds" type="Node2D" parent="." unique_id=2141251968]
 z_index = 256
-position = Vector2(-640, -272)
+position = Vector2(-880, -480)
 script = ExtResource("3_jm2rk")
 width = 906
-height = 522
+height = 810
 metadata/_custom_type_script = "uid://wu6rr0n671o"
