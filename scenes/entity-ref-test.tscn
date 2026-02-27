@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://ba3cqyowmknpn"]
+
+[ext_resource type="Script" uid="uid://gfsm7hcqb2q0" path="res://scenes/entity-ref-test.gd" id="1_pdicu"]
+[ext_resource type="Texture2D" uid="uid://tuh2s8l46qck" path="res://icon.svg" id="2_duqqy"]
+
+[node name="entity-ref-test" type="Node2D" unique_id=2138518975]
+script = ExtResource("1_pdicu")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=703462037]
+position = Vector2(4.76837e-07, -2.38419e-07)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("2_duqqy")
