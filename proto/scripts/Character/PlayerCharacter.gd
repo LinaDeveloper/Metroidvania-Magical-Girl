@@ -17,9 +17,17 @@ var control_mode: Enums.ControlMode
 
 
 func initialize():
+	# Debug: Brutal code to delete any redundant player character nodes placed in the various
+	# level scenes for testing, when the "true" player is coming from another scene
+	if get_tree().get_first_node_in_group(&"Player") != self:
+		queue_free()
+
 	super.initialize()
 
 	DebugUtils.assert_member_is_set(self, attack_input_buffer_timer, "attack_input_buffer_timer")
+
+	# Always attach Player character to root so it's never deleted by scene change
+	reparent.call_deferred(get_tree().root)
 
 
 func setup():

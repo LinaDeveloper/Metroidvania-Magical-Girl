@@ -23,6 +23,14 @@ var target_level: PackedScene
 @onready var area_2d: Area2D = $Area2D
 
 
+func _ready() -> void:
+	if Engine.is_editor_hint():
+		return
+
+	SceneManager.new_scene_ready.connect(_on_new_scene_ready)
+	SceneManager.load_scene_finished.connect(_on_load_scene_finished)
+
+
 func apply_area_settings() -> void:
 	if not area_2d:
 		return
@@ -41,3 +49,56 @@ func apply_area_settings() -> void:
 			area_2d.scale.y = 1
 		else:
 			area_2d.scale.y = -1
+
+
+func get_offset(player_character: PlayerCharacter) -> Vector2:
+	var offset := Vector2.ZERO
+	var player_pos = player_character.global_position
+
+	if location == SIDE.LEFT or location == SIDE.RIGHT:
+		# Preserve relative height when crossing horizontal gate
+		offset.y = player_pos.y - global_position.y
+
+		if location == SIDE.LEFT:
+			offset.x = -12.0
+		else:
+			offset.x = 12.0
+	else:
+		# Preserve relative X when crossing horizontal gate
+		offset.x = player_pos.x - global_position.x
+
+		if location == SIDE.TOP:
+			# Origin is at character bottom so doesn't need a lot of offset
+			offset.y = -2.0
+		else:
+			# On the opposite, here we need a lot of offset to cover distance head -> feet
+			offset.x = 48.0
+
+	return offset
+
+
+
+func _on_new_scene_ready(target_name: String, offset: Vector2) -> void:
+	# Position player
+	if target_name == name:
+		# This is the area where the player is respawning
+		var player := get_tree().get_first_node_in_group(&"Player") as Node2D
+		player.global_position = global_position + offset
+
+func _on_load_scene_finished() -> void:
+	# Delay level transition trigger activation until scene is fully loaded
+	# to avoid player character accidentally chain-triggering level transitions
+	# if spawning at the wrong place
+
+	# Note: We must wait 1 extra frame on top of scene_manager.transition_scene before connecting signal
+	# because Area2D seems to add an extra frame of delay in processing that the Player Character is gone
+	# Note: unlike Metroidvania tutorial, we await *before* connect, in counterpart, no need to
+	# temporarily disable area_2d.monitoring
+	await get_tree().physics_frame
+	area_2d.body_entered.connect(_on_area_2d_body_entered)
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	# in principle, we should check that body is really Player
+	var player_character := body as PlayerCharacter
+	if player_character:
+		SceneManager.transition_scene(target_level_path, target_area_name, get_offset(player_character), "left")
